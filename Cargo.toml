@@ -1,0 +1,45 @@
+[package]
+name = "culture-kernel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# --- CORE ASYNC RUNTIME ---
+# The engine that runs code asynchronously. 'full' enables multi-threading, IO, and timers.
+tokio = { version = "1", features = ["full"] }
+
+# --- WEB API SERVER ---
+# 'http2' is enabled for modern performance.
+# We DO NOT rely on OpenSSL here, ensuring fast, crash-free builds.
+axum = { version = "0.7", features = ["http2"] }
+
+# --- HTTP UTILITIES ---
+# 'cors' allows your frontend (Blinkhost) to talk to this API.
+# 'trace' enables logging for every request (crucial for debugging).
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# --- EMBEDDED DATABASE ---
+# Pure Rust, embedded, ACID-compliant key-value store.
+# No external server needed. It creates a 'culture.redb' file.
+redb = "1.0"
+
+# --- DATA SERIALIZATION ---
+# 'derive' allows us to convert Structs <-> JSON automatically.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# --- COMMAND LINE INTERFACE (CLI) ---
+# Parses command line arguments (e.g., 'cargo run -- serve').
+clap = { version = "4", features = ["derive"] }
+
+# --- TERMINAL UI ---
+colored = "2"
+# Renders Markdown (tables, bolding) directly in the terminal window.
+termimad = "0.34"
+
+# --- UTILITIES ---
+# For simplified error handling.
+anyhow = "1.0"
+# For defining custom domain errors.
+thiserror = "1.0"
+
