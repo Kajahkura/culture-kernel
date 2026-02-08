@@ -1,0 +1,68 @@
+[
+  {
+    "id": "silent-start",
+    "title": "The Silent Start",
+    "origin": "Amazon",
+    "category": "Cognitive Load",
+    "bug_fix": "Fixes 'Loudest Voice Bias' and 'HiPPO' (Highest Paid Person's Opinion) effect.",
+    "trigger": "Start of any strategic meeting (Product Review, Board Meeting).",
+    "script": "We will now read the 6-page narrative in silence for 20 minutes. Please annotate your comments in the doc.",
+    "enactment": "Total silence. No devices other than the reading device. Discussion begins only after everyone has closed the document.",
+    "source": "Working Backwards by Colin Bryar"
+  },
+  {
+    "id": "blameless-postmortem",
+    "title": "Blameless Post-Mortem",
+    "origin": "Google / Etsy",
+    "category": "Psychological Safety",
+    "bug_fix": "Fixes 'Fear of Failure' and 'Silence Scripts' that hide errors.",
+    "trigger": "A production outage or significant project failure.",
+    "script": "We are here to investigate the process, not the person. Assume everyone did the best job they could with the information they had.",
+    "enactment": "Create a timeline of events. Identify the 'Second Story' (what the engineer was seeing/thinking at the time).",
+    "source": "Project Aristotle & The Field Guide to Understanding 'Human Error'"
+  },
+  {
+    "id": "check-in-round",
+    "title": "The Check-In Round",
+    "origin": "Holacracy / Agile",
+    "category": "Alignment",
+    "bug_fix": "Fixes 'Cognitive Drift' where people are physically present but mentally absent.",
+    "trigger": "Start of tactical team meetings.",
+    "script": "What is one thing distracting you right now? Checking in.",
+    "enactment": "Go around the circle. Each person speaks once. No cross-talk or therapy. Just state the distraction and say 'Checking in.'",
+    "source": "Holacracy Constitution"
+  },
+  {
+    "id": "shrek-ears",
+    "title": "The Shrek Ears",
+    "origin": "Linden Lab (Second Life)",
+    "category": "Resilience",
+    "bug_fix": "Fixes 'Shame' associated with breaking production.",
+    "trigger": "An engineer breaks the build or causes an outage.",
+    "script": "Congratulations, you are now a real engineer.",
+    "enactment": "The engineer wears a pair of green Shrek ears for the rest of the day. It is a badge of honor, signaling they pushed code that mattered.",
+    "source": "Charity Majors (charity.wtf)"
+  },
+  {
+    "id": "fika",
+    "title": "Virtual Fika",
+    "origin": "Sweden / Spotify",
+    "category": "Connection",
+    "bug_fix": "Fixes 'Remote Isolation' and transactional relationships.",
+    "trigger": "3:00 PM on Wednesdays (or automated via bot).",
+    "script": "No work talk allowed.",
+    "enactment": "15 minutes of coffee and cake. If anyone talks about a project, they must pay a penalty (e.g., sing a song).",
+    "source": "Swedish National Culture"
+  },
+  {
+    "id": "pre-mortem",
+    "title": "The Pre-Mortem",
+    "origin": "Gary Klein (Psychologist)",
+    "category": "Risk Management",
+    "bug_fix": "Fixes 'Groupthink' and 'Overconfidence Bias'.",
+    "trigger": "Before signing off on a major project launch.",
+    "script": "Imagine we are 6 months in the future and this project has failed spectacularly. Write down the story of why it failed.",
+    "enactment": "Team spends 5 minutes writing the 'failure story.' Then they work backward to fix those risks today.",
+    "source": "Harvard Business Review"
+  }
+]
