@@ -9,6 +9,7 @@ use redb::{Database, ReadableTable, TableDefinition};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use colored::*; // For ANSI colors
+use tower_http::cors::CorsLayer;
 
 // --- 1. DATA MODELS ---
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -109,10 +110,16 @@ async fn start_server(db: Arc<Database>, port: u16) -> anyhow::Result<()> {
         seed_database(&db)?;
     }
 
+    // --- CORS ---
+    let cors = CorsLayer::new()
+        .allow_origin(tower_http::cors::Any) // Allow Blinkhost, Localhost, etc.
+        .allow_methods(tower_http::cors::Any); // Allow GET, POST, etc.
+
     let app = Router::new()
         // We now pass the 'Request' to the handler to check headers
         .route("/rituals", get(api_handle_rituals))
-        .with_state(db);
+        .with_state(db)
+        .layer(cors);
 
     println!("{} on port {}", "KERNEL LIVE".green().bold(), port);
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
