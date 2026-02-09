@@ -1,5 +1,5 @@
 # Stage 1: Build the Kernel
-FROM rust:1.75 as builder
+FROM rust:1.84 as builder
 WORKDIR /app
 COPY . .
 # We build in release mode for maximum speed
