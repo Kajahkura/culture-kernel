@@ -16,4 +16,4 @@ COPY --from=builder /app/target/release/culture-kernel /app/culture-kernel
 COPY --from=builder /app/rituals.json /app/rituals.json
 
 # Run the 'serve' command by default
-CMD ["./culture-kernel", "serve", "--port", "8080"]
+CMD ["/bin/sh", "-c", "./culture-kernel seed && ./culture-kernel serve --port 8080"]

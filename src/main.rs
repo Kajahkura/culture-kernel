@@ -107,6 +107,22 @@ fn list_rituals(db: &Arc<Database>) -> anyhow::Result<()> {
 
 // --- 5. API SERVER LOGIC ---
 async fn start_server(db: Arc<Database>, port: u16) -> anyhow::Result<()> {
+    
+    // --- SELF-HEALING LOGIC START ---
+    // Check if the table exists. If not, SEED IT automatically.
+    let needs_seeding = {
+        let read_txn = db.begin_read()?;
+        // Try to open the table; if it fails, we assume it doesn't exist
+        read_txn.open_table(RITUALS_TABLE).is_err()
+    };
+
+    if needs_seeding {
+        println!("{}", "Table 'rituals' missing. Auto-seeding kernel...".yellow());
+        seed_database(&db)?;
+        println!("{}", "Auto-seeding complete.".green());
+    }
+    // --- SELF-HEALING LOGIC END ---
+
     let app = Router::new()
         .route("/rituals", get(api_list_rituals))
         .with_state(db);
