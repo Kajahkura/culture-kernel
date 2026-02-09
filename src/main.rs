@@ -1,5 +1,6 @@
 use axum::{
-    extract::{Path, State},
+    extract::{State, Request},
+    response::{IntoResponse, Response},
     routing::get,
     Router, Json,
 };
@@ -7,7 +8,7 @@ use clap::{Parser, Subcommand};
 use redb::{Database, ReadableTable, TableDefinition};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-use colored::*;
+use colored::*; // For ANSI colors
 
 // --- 1. DATA MODELS ---
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -18,13 +19,11 @@ struct Ritual {
     script: String,
 }
 
-// Define the Database Table
 const RITUALS_TABLE: TableDefinition<&str, &str> = TableDefinition::new("rituals");
 
 // --- 2. CLI STRUCTURE ---
 #[derive(Parser)]
 #[command(name = "Culture Kernel")]
-#[command(about = "The Operating System for Organizational Culture", long_about = None)]
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
@@ -32,14 +31,11 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Start the HTTP API Server
     Serve {
         #[arg(short, long, default_value = "8080")]
         port: u16,
     },
-    /// List all rituals in the database
     List,
-    /// Seed the database 
     Seed,
 }
 
@@ -47,8 +43,6 @@ enum Commands {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
-    
-    // Initialize Embedded DB (redb)
     let db = Database::create("culture.redb")?;
     let db_arc = Arc::new(db);
 
@@ -58,19 +52,16 @@ async fn main() -> anyhow::Result<()> {
             println!("{}", "Database seeded successfully.".green().bold());
         }
         Some(Commands::List) => {
-            list_rituals(&db_arc)?;
+            list_rituals_cli(&db_arc)?;
         }
         Some(Commands::Serve { port }) => {
-            println!("{} on port {}", "Starting Culture Kernel API".cyan(), port);
             start_server(db_arc, *port).await?;
         }
         None => {
-            // Default behavior: Show Help
             println!("{}", "Culture Kernel v1.0".yellow().bold());
             println!("Run 'culture-kernel --help' for commands.");
         }
     }
-
     Ok(())
 }
 
@@ -79,7 +70,6 @@ fn seed_database(db: &Arc<Database>) -> anyhow::Result<()> {
     let write_txn = db.begin_write()?;
     {
         let mut table = write_txn.open_table(RITUALS_TABLE)?;
-        // Load from JSON file
         let data = std::fs::read_to_string("rituals.json")?;
         let rituals: Vec<Ritual> = serde_json::from_str(&data)?;
         
@@ -92,7 +82,8 @@ fn seed_database(db: &Arc<Database>) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn list_rituals(db: &Arc<Database>) -> anyhow::Result<()> {
+// Logic for local CLI listing
+fn list_rituals_cli(db: &Arc<Database>) -> anyhow::Result<()> {
     let read_txn = db.begin_read()?;
     let table = read_txn.open_table(RITUALS_TABLE)?;
     
@@ -105,34 +96,36 @@ fn list_rituals(db: &Arc<Database>) -> anyhow::Result<()> {
     Ok(())
 }
 
-// --- 5. API SERVER LOGIC ---
+// --- 5. API SERVER LOGIC (THE UPGRADE) ---
 async fn start_server(db: Arc<Database>, port: u16) -> anyhow::Result<()> {
-    
-    // --- SELF-HEALING LOGIC START ---
-    // Check if the table exists. If not, SEED IT automatically.
+    // Self-Healing: Seed if empty
     let needs_seeding = {
         let read_txn = db.begin_read()?;
-        // Try to open the table; if it fails, we assume it doesn't exist
         read_txn.open_table(RITUALS_TABLE).is_err()
     };
 
     if needs_seeding {
-        println!("{}", "Table 'rituals' missing. Auto-seeding kernel...".yellow());
+        println!("{}", "Auto-seeding kernel...".yellow());
         seed_database(&db)?;
-        println!("{}", "Auto-seeding complete.".green());
     }
-    // --- SELF-HEALING LOGIC END ---
 
     let app = Router::new()
-        .route("/rituals", get(api_list_rituals))
+        // We now pass the 'Request' to the handler to check headers
+        .route("/rituals", get(api_handle_rituals))
         .with_state(db);
 
+    println!("{} on port {}", "KERNEL LIVE".green().bold(), port);
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
     axum::serve(listener, app).await?;
     Ok(())
 }
 
-async fn api_list_rituals(State(db): State<Arc<Database>>) -> Json<Vec<Ritual>> {
+// THE DUAL-MODE HANDLER
+async fn api_handle_rituals(
+    State(db): State<Arc<Database>>, 
+    req: Request
+) -> Response {
+    // 1. Fetch Data
     let read_txn = db.begin_read().unwrap();
     let table = read_txn.open_table(RITUALS_TABLE).unwrap();
     
@@ -142,5 +135,34 @@ async fn api_list_rituals(State(db): State<Arc<Database>>) -> Json<Vec<Ritual>> 
         let ritual: Ritual = serde_json::from_str(value.value()).unwrap();
         rituals.push(ritual);
     }
-    Json(rituals)
+
+    // 2. Detect User-Agent (Is it Curl?)
+    let user_agent = req.headers()
+        .get("user-agent")
+        .and_then(|h| h.to_str().ok())
+        .unwrap_or("unknown");
+
+    let is_terminal = user_agent.to_lowercase().contains("curl") 
+                   || user_agent.to_lowercase().contains("wget");
+
+    // 3. Return the correct format
+    if is_terminal {
+        // Render ANSI Art Table
+        let mut output = String::new();
+        output.push_str(&format!("{}\n", "╔════════════════════════════════════════════════╗".bright_cyan()));
+        output.push_str(&format!("║  {}  ║\n", "CULTURE KERNEL :: ACTIVE RITUALS".yellow().bold()));
+        output.push_str(&format!("{}\n\n", "╚════════════════════════════════════════════════╝".bright_cyan()));
+
+        for r in rituals {
+            output.push_str(&format!("> {}\n", r.title.green().bold()));
+            output.push_str(&format!("  ID:      {}\n", r.id.cyan()));
+            output.push_str(&format!("  TRIGGER: {}\n", r.trigger));
+            output.push_str(&format!("  SCRIPT:  {}\n", r.script.italic()));
+            output.push_str("\n──────────────────────────────────────────────────\n\n");
+        }
+        return output.into_response();
+    }
+
+    // Default: Return JSON for Frontend
+    Json(rituals).into_response()
 }
