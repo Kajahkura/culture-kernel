@@ -1,68 +1,203 @@
-[
-  {
-    "id": "silent-start",
-    "title": "The Silent Start",
-    "origin": "Amazon",
-    "category": "Cognitive Load",
-    "bug_fix": "Fixes 'Loudest Voice Bias' and 'HiPPO' (Highest Paid Person's Opinion) effect.",
-    "trigger": "Start of any strategic meeting (Product Review, Board Meeting).",
-    "script": "We will now read the 6-page narrative in silence for 20 minutes. Please annotate your comments in the doc.",
-    "enactment": "Total silence. No devices other than the reading device. Discussion begins only after everyone has closed the document.",
-    "source": "Working Backwards by Colin Bryar"
-  },
-  {
-    "id": "blameless-postmortem",
-    "title": "Blameless Post-Mortem",
-    "origin": "Google / Etsy",
-    "category": "Psychological Safety",
-    "bug_fix": "Fixes 'Fear of Failure' and 'Silence Scripts' that hide errors.",
-    "trigger": "A production outage or significant project failure.",
-    "script": "We are here to investigate the process, not the person. Assume everyone did the best job they could with the information they had.",
-    "enactment": "Create a timeline of events. Identify the 'Second Story' (what the engineer was seeing/thinking at the time).",
-    "source": "Project Aristotle & The Field Guide to Understanding 'Human Error'"
-  },
-  {
-    "id": "check-in-round",
-    "title": "The Check-In Round",
-    "origin": "Holacracy / Agile",
-    "category": "Alignment",
-    "bug_fix": "Fixes 'Cognitive Drift' where people are physically present but mentally absent.",
-    "trigger": "Start of tactical team meetings.",
-    "script": "What is one thing distracting you right now? Checking in.",
-    "enactment": "Go around the circle. Each person speaks once. No cross-talk or therapy. Just state the distraction and say 'Checking in.'",
-    "source": "Holacracy Constitution"
-  },
-  {
-    "id": "shrek-ears",
-    "title": "The Shrek Ears",
-    "origin": "Linden Lab (Second Life)",
-    "category": "Resilience",
-    "bug_fix": "Fixes 'Shame' associated with breaking production.",
-    "trigger": "An engineer breaks the build or causes an outage.",
-    "script": "Congratulations, you are now a real engineer.",
-    "enactment": "The engineer wears a pair of green Shrek ears for the rest of the day. It is a badge of honor, signaling they pushed code that mattered.",
-    "source": "Charity Majors (charity.wtf)"
-  },
-  {
-    "id": "fika",
-    "title": "Virtual Fika",
-    "origin": "Sweden / Spotify",
-    "category": "Connection",
-    "bug_fix": "Fixes 'Remote Isolation' and transactional relationships.",
-    "trigger": "3:00 PM on Wednesdays (or automated via bot).",
-    "script": "No work talk allowed.",
-    "enactment": "15 minutes of coffee and cake. If anyone talks about a project, they must pay a penalty (e.g., sing a song).",
-    "source": "Swedish National Culture"
-  },
-  {
-    "id": "pre-mortem",
-    "title": "The Pre-Mortem",
-    "origin": "Gary Klein (Psychologist)",
-    "category": "Risk Management",
-    "bug_fix": "Fixes 'Groupthink' and 'Overconfidence Bias'.",
-    "trigger": "Before signing off on a major project launch.",
-    "script": "Imagine we are 6 months in the future and this project has failed spectacularly. Write down the story of why it failed.",
-    "enactment": "Team spends 5 minutes writing the 'failure story.' Then they work backward to fix those risks today.",
-    "source": "Harvard Business Review"
+{
+  "culture_kernel_config": {
+    "version": "1.0",
+    "description": "Selected 11 High-Performance African Rituals for Tech Business",
+    "selected_rituals": [
+      {
+        "protocol_id": "IGBO_01_IGBA_BOI",
+        "name": "Venture Apprenticeship Settlement",
+        "origin_culture": "Igbo (Nigeria)",
+        "category": "Talent Development & Capital Allocation",
+        "bug_fixed": "Principal-Agent Problem & IP Theft upon Exit",
+        "mechanism": "Deferred Capital Vesting & Spin-off Rights",
+        "modern_script": {
+          "trigger": "Day 1 of High-Potential Hire",
+          "contract": "The 'Settlement Agreement': Employee accepts base market salary. A 'Shadow Bonus' (20% of salary) + Corporate Match accumulates in a 'Settlement Escrow' visible on their dashboard.",
+          "vesting_period": "48 Months",
+          "graduation_ritual": "The 'Settlement Day'. The CEO publicly hands over the escrowed capital. This is not a cash bonus for consumption; it is restricted capital for launching a new internal innovation unit or external startup.",
+          "condition": "Employee must successfully train a junior 'Nwa Boi' (successor) during the final 12 months to unlock the full settlement."
+        },
+        "ethical_guardrails": [
+          "No Indentured Labor: The base salary must meet or exceed market living standards; the escrow is strictly a bonus layer.",
+          "Clear Exit Terms: Vesting schedules must allow for partial settlement if the employee leaves amicably before 48 months."
+        ]
+      },
+      {
+        "protocol_id": "HAUSA_07_GANDU",
+        "name": "The Dual-Plot Workflow",
+        "origin_culture": "Hausa (Nigeria)",
+        "category": "Productivity & Innovation",
+        "bug_fixed": "Employee Stagnation & Moonlighting Friction",
+        "mechanism": "Federated Resource Allocation",
+        "modern_script": {
+          "structure": "80% Time on 'Gandu' (Core KPIs/Revenue). 20% Time on 'Gayauna' (Personal Innovation/R&D).",
+          "rights": "The company owns the Gandu output completely. The employee co-owns the Gayauna output (or gets explicit royalties/attribution).",
+          "leadership": "The Team Lead (Maigida) is responsible for the welfare of the unit, ensuring the 'Granary' (Team Bonus) is full before individual plots are tended."
+        },
+        "ethical_guardrails": [
+          "IP Protection: The distinction between Gandu (Company IP) and Gayauna (Shared/Employee IP) must be legally codified to prevent exploitation.",
+          "Workload Balance: Managers cannot pressure employees to use their Gayauna time for Gandu tasks to meet unrealistic deadlines."
+        ]
+      },
+      {
+        "protocol_id": "HAUSA_08_PULAAKU",
+        "name": "The Stoic Incident Protocol",
+        "origin_culture": "Fulani (Sahel)",
+        "category": "Crisis Management",
+        "bug_fixed": "Panic & Emotional Volatility during Crises",
+        "mechanism": "Behavioral Governor",
+        "modern_script": {
+          "trigger": "Severity-1 Incident Declared",
+          "rules": "1. Munyal (Patience): No shouting, no rapid-fire blaming. 2. Hakkilo (Forethought): Every command must be written/logged before execution. 3. Semteende (Modesty): The leader speaks last; focus is on the team's resolution.",
+          "ritual": "The 'Silence of the Herder'. The incident channel is read-only for non-responders to reduce noise. Communication is terse and factual."
+        },
+        "ethical_guardrails": [
+          "Psychological Safety: Stoicism must not silence whistleblowers or suppress legitimate concerns about safety or ethics.",
+          "Post-Crisis Decompression: After the incident, a 'warm' retrospective is required to allow emotional processing and prevent repressed stress."
+        ]
+      },
+      {
+        "protocol_id": "HAUSA_09_SARKIN_KASUWA",
+        "name": "The API Guild Governance",
+        "origin_culture": "Hausa (Nigeria)",
+        "category": "Technical Architecture",
+        "bug_fixed": "Microservice Sprawl & Contract Disputes",
+        "mechanism": "Peer-Elected Standardization",
+        "modern_script": {
+          "role": "Sarkin Code (The Code King). Elected for 6 months by the engineers.",
+          "authority": "Can block a deployment that violates the 'Market Rules' (API Standards).",
+          "dispute_resolution": "If Team A claims Team B's API is breaking the contract, they approach the Sarkin. The Sarkin's ruling is binding because their authority comes from the 'Traders' (Developers), not Management."
+        },
+        "ethical_guardrails": [
+          "Term Limits: The Sarkin must rotate strictly every 6 months to prevent the accumulation of dictatorial power.",
+          "Transparency: All rulings must be documented publicly with technical justification, never made in secret."
+        ]
+      },
+      {
+        "protocol_id": "AKAN_10_SANKOFA",
+        "name": "The Debt Retrieval Sprint",
+        "origin_culture": "Akan (Ghana)",
+        "category": "Engineering Operations",
+        "bug_fixed": "Technical Debt Accumulation",
+        "mechanism": "Scheduled Retrospective Action",
+        "modern_script": {
+          "trigger": "Every 4th Sprint Cycle",
+          "mandate": "Zero new feature development. The entire team 'looks back' to refactor code, update documentation, and fix bugs identified in previous Post-Mortems.",
+          "symbol": "The Sankofa Bird icon is placed on the Jira board.",
+          "metric": "Success is measured not by velocity, but by 'Debt Down' (reduction in bug count/complexity)."
+        },
+        "ethical_guardrails": [
+          "No Crunch: This sprint is for maintenance and health, not for squeezing in forgotten features or working overtime.",
+          "Blame-Free Refactoring: Legacy code should be improved without shaming the original authors."
+        ]
+      },
+      {
+        "protocol_id": "AKAN_11_ASAFO",
+        "name": "The Rapid Response Unit",
+        "origin_culture": "Akan (Fante)",
+        "category": "Operations & Security",
+        "bug_fixed": "Slow Incident Response & Bureaucracy",
+        "mechanism": "Competitor Corps Identity",
+        "modern_script": {
+          "structure": "Cross-functional squads (Dev, Ops, Sec) form an 'Asafo'.",
+          "identity": "Each Asafo designs its own digital flag and chant (Slack emoji/bot).",
+          "ritual": "The 'Flag Dancing'. When a major bug is fixed or a target hit, the Asafo 'parades' their success (public demo), signaling their capability to the wider organization.",
+          "duty": "They are the default owners of 'unowned' problems (fires)."
+        },
+        "ethical_guardrails": [
+          "Burnout Protection: Membership in the 'Asafo' high-intensity unit must be rotated to prevent fatigue.",
+          "Healthy Rivalry: Competition between squads must remain playful and not lead to data hoarding or sabotage."
+        ]
+      },
+      {
+        "protocol_id": "YORUBA_05_ESUSU",
+        "name": "The Innovation ROSCA",
+        "origin_culture": "Yoruba (Nigeria/Benin)",
+        "category": "Resource Allocation",
+        "bug_fixed": "Budget Silos & Risk Aversion",
+        "mechanism": "Rotating Lump-Sum Allocation",
+        "modern_script": {
+          "trigger": "Monthly Cycle",
+          "input": "Each squad contributes 5% of their discretionary budget/time to the 'Esusu Pool'.",
+          "selection": "Rotation or Lottery (not committee vote). This ensures every team eventually gets a massive injection of resources to do something big.",
+          "accountability": "The winning team must demo their output at the next Apero. Defaulting (wasting the funds) excludes them from the next 2 cycles."
+        },
+        "ethical_guardrails": [
+          "No Embezzlement: Funds must be strictly ring-fenced for project costs, not personal bonuses or perks.",
+          "Equity of Access: Smaller or non-technical teams must have equal weight in the rotation/lottery system."
+        ]
+      },
+      {
+        "protocol_id": "ZULU_13_IBUTHO",
+        "name": "The Cohort Network",
+        "origin_culture": "Zulu (South Africa)",
+        "category": "Onboarding & Culture",
+        "bug_fixed": "Vertical Silos & New Hire Isolation",
+        "mechanism": "Lateral Social Bonding",
+        "modern_script": {
+          "trigger": "Hiring Batches",
+          "formation": "All hires in a quarter form an 'Ibutho' with a unique Zulu-style name.",
+          "ritual": "They undergo 'Initiation' (Bootcamp) together. Even if one is Finance and one is Engineering, they bond.",
+          "maintenance": "Quarterly 'Ibutho Dinners'. They serve as a cross-functional support network for the rest of their tenure."
+        },
+        "ethical_guardrails": [
+          "No Hazing: Initiation must be constructive challenges, not humiliation.",
+          "Inclusion: Late hires or solo hires must be adopted into the nearest Ibutho."
+        ]
+      },
+      {
+        "protocol_id": "ZULU_15_UKUSISA",
+        "name": "The Resource Lending Protocol",
+        "origin_culture": "Zulu (South Africa)",
+        "category": "Mentorship",
+        "bug_fixed": "Resource Hoarding & Lack of Sponsorship",
+        "mechanism": "Usufruct Rights on Corporate Assets",
+        "modern_script": {
+          "contract": "Senior Leader (Lender) allocates Budget/Headcount to Junior (Recipient).",
+          "terms": "Recipient manages the asset for 12 months. Output (ROI) is split: 50% to Company, 25% to Junior's portfolio, 25% credited to Senior's leadership KPI.",
+          "outcome": "Junior gains management experience; Senior gains scale without effort."
+        },
+        "ethical_guardrails": [
+          "Autonomy: The Senior Leader must not micromanage the lent resources; the Junior must have room to fail safely.",
+          "Fair Credit: The Junior's success must be explicitly recognized in promotion cycles, not absorbed entirely by the Senior."
+        ]
+      },
+      {
+        "protocol_id": "RWANDA_19_IMIHIGO",
+        "name": "The Public Performance Vow",
+        "origin_culture": "Rwanda",
+        "category": "Performance Management",
+        "bug_fixed": "Accountability Opacity",
+        "mechanism": "Social Contract Theory",
+        "modern_script": {
+          "trigger": "Start of Fiscal Year",
+          "ritual": "The 'Signing Ceremony'. Each Lead reads their targets aloud to the company.",
+          "tracking": "A physical or digital dashboard visible to all.",
+          "evaluation": "The 'Kwesa Imihigo' (Evaluation Day). Success is celebrated; failure is explained (not punished, if the effort was genuine)."
+        },
+        "ethical_guardrails": [
+          "Psychological Safety: Public failure should result in coaching and support, not public shaming or immediate firing.",
+          "Realistic Targets: Vows must be vetted for feasibility to prevent burnout or unethical shortcuts to meet impossible goals."
+        ]
+      },
+      {
+        "protocol_id": "RWANDA_21_UMUGANDA",
+        "name": "The Commons Service Day",
+        "origin_culture": "Rwanda",
+        "category": "Culture & Maintenance",
+        "bug_fixed": "Hierarchy Detachment & Technical Rot",
+        "mechanism": "Mandatory Egalitarian Labor",
+        "modern_script": {
+          "timing": "Last Friday of the Month",
+          "activity": "Non-strategic maintenance work (Support tickets, documentation, bug squashing).",
+          "rule": "Inversion of Hierarchy. Executives must do 'Janitorial' work (Support/Docs).",
+          "outcome": "Cleaned 'Commons' and re-connected leadership."
+        },
+        "ethical_guardrails": [
+          "Accessibility: Physical tasks must accommodate disabilities.",
+          "No Exemptions: If the CEO skips, the ritual dies."
+        ]
+      }
+    ]
   }
-]
+}
