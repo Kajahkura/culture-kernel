@@ -1,6 +1,6 @@
 [
   {
-    "protocol_id": "IGBO_01_IGBA_BOI",
+    "id": "IGBO_01_IGBA_BOI",
     "name": "Venture Apprenticeship Settlement",
     "origin_culture": "Igbo (Nigeria)",
     "category": "Talent Development & Capital Allocation",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "protocol_id": "HAUSA_07_GANDU",
+    "id": "HAUSA_07_GANDU",
     "name": "The Dual-Plot Workflow",
     "origin_culture": "Hausa (Nigeria)",
     "category": "Productivity & Innovation",
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "protocol_id": "HAUSA_08_PULAAKU",
+    "id": "HAUSA_08_PULAAKU",
     "name": "The Stoic Incident Protocol",
     "origin_culture": "Fulani (Sahel)",
     "category": "Crisis Management",
@@ -53,7 +53,7 @@
     ]
   },
   {
-    "protocol_id": "HAUSA_09_SARKIN_KASUWA",
+    "id": "HAUSA_09_SARKIN_KASUWA",
     "name": "The API Guild Governance",
     "origin_culture": "Hausa (Nigeria)",
     "category": "Technical Architecture",
@@ -70,7 +70,7 @@
     ]
   },
   {
-    "protocol_id": "AKAN_10_SANKOFA",
+    "id": "AKAN_10_SANKOFA",
     "name": "The Debt Retrieval Sprint",
     "origin_culture": "Akan (Ghana)",
     "category": "Engineering Operations",
@@ -88,7 +88,7 @@
     ]
   },
   {
-    "protocol_id": "AKAN_11_ASAFO",
+    "id": "AKAN_11_ASAFO",
     "name": "The Rapid Response Unit",
     "origin_culture": "Akan (Fante)",
     "category": "Operations & Security",
@@ -106,7 +106,7 @@
     ]
   },
   {
-    "protocol_id": "YORUBA_05_ESUSU",
+    "id": "YORUBA_05_ESUSU",
     "name": "The Innovation ROSCA",
     "origin_culture": "Yoruba (Nigeria/Benin)",
     "category": "Resource Allocation",
@@ -124,7 +124,7 @@
     ]
   },
   {
-    "protocol_id": "ZULU_13_IBUTHO",
+    "id": "ZULU_13_IBUTHO",
     "name": "The Cohort Network",
     "origin_culture": "Zulu (South Africa)",
     "category": "Onboarding & Culture",
@@ -142,7 +142,7 @@
     ]
   },
   {
-    "protocol_id": "ZULU_15_UKUSISA",
+    "id": "ZULU_15_UKUSISA",
     "name": "The Resource Lending Protocol",
     "origin_culture": "Zulu (South Africa)",
     "category": "Mentorship",
@@ -159,7 +159,7 @@
     ]
   },
   {
-    "protocol_id": "RWANDA_19_IMIHIGO",
+    "id": "RWANDA_19_IMIHIGO",
     "name": "The Public Performance Vow",
     "origin_culture": "Rwanda",
     "category": "Performance Management",
@@ -177,7 +177,7 @@
     ]
   },
   {
-    "protocol_id": "RWANDA_21_UMUGANDA",
+    "id": "RWANDA_21_UMUGANDA",
     "name": "The Commons Service Day",
     "origin_culture": "Rwanda",
     "category": "Culture & Maintenance",
