@@ -10,14 +10,27 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use colored::*; // For ANSI colors
 use tower_http::cors::CorsLayer;
+use std::collections::HashMap; // Needed for dynamic JSON objects
 
-// --- 1. DATA MODELS ---
+// --- 1. DATA MODELS (UPDATED TO MATCH SUPER-JSON) ---
 #[derive(Debug, Serialize, Deserialize, Clone)]
 struct Ritual {
+    #[serde(rename = "protocol_id")] // Maps JSON 'protocol_id' to Rust 'id'
     id: String,
+    
+    #[serde(rename = "name")] // Maps JSON 'name' to Rust 'title'
     title: String,
-    trigger: String,
-    script: String,
+    
+    origin_culture: String,
+    category: String,
+    bug_fixed: String,
+    mechanism: String,
+    
+    // Complex nested object: Handles { "trigger": "...", "contract": "..." }
+    modern_script: HashMap<String, String>, 
+    
+    // Array of strings
+    ethical_guardrails: Vec<String>,
 }
 
 const RITUALS_TABLE: TableDefinition<&str, &str> = TableDefinition::new("rituals");
@@ -59,7 +72,7 @@ async fn main() -> anyhow::Result<()> {
             start_server(db_arc, *port).await?;
         }
         None => {
-            println!("{}", "Culture Kernel v1.0".yellow().bold());
+            println!("{}", "Culture Kernel v2.1".yellow().bold());
             println!("Run 'culture-kernel --help' for commands.");
         }
     }
@@ -71,6 +84,9 @@ fn seed_database(db: &Arc<Database>) -> anyhow::Result<()> {
     let write_txn = db.begin_write()?;
     {
         let mut table = write_txn.open_table(RITUALS_TABLE)?;
+        // We delete old data first to ensure clean seed
+        // Note: redb 1.0 doesn't have clear(), so we just overwrite by ID.
+        
         let data = std::fs::read_to_string("rituals.json")?;
         let rituals: Vec<Ritual> = serde_json::from_str(&data)?;
         
@@ -92,12 +108,12 @@ fn list_rituals_cli(db: &Arc<Database>) -> anyhow::Result<()> {
     for item in table.iter()? {
         let (id, value) = item?;
         let ritual: Ritual = serde_json::from_str(value.value())?;
-        println!("{} - {}", id.value().cyan(), ritual.title);
+        println!("{} - {} ({})", id.value().cyan(), ritual.title, ritual.origin_culture.yellow());
     }
     Ok(())
 }
 
-// --- 5. API SERVER LOGIC (THE UPGRADE) ---
+// --- 5. API SERVER LOGIC ---
 async fn start_server(db: Arc<Database>, port: u16) -> anyhow::Result<()> {
     // Self-Healing: Seed if empty
     let needs_seeding = {
@@ -112,11 +128,10 @@ async fn start_server(db: Arc<Database>, port: u16) -> anyhow::Result<()> {
 
     // --- CORS ---
     let cors = CorsLayer::new()
-        .allow_origin(tower_http::cors::Any) // Allow Blinkhost, Localhost, etc.
-        .allow_methods(tower_http::cors::Any); // Allow GET, POST, etc.
+        .allow_origin(tower_http::cors::Any)
+        .allow_methods(tower_http::cors::Any);
 
     let app = Router::new()
-        // We now pass the 'Request' to the handler to check headers
         .route("/rituals", get(api_handle_rituals))
         .with_state(db)
         .layer(cors);
@@ -134,13 +149,20 @@ async fn api_handle_rituals(
 ) -> Response {
     // 1. Fetch Data
     let read_txn = db.begin_read().unwrap();
-    let table = read_txn.open_table(RITUALS_TABLE).unwrap();
+    
+    // Gracefully handle table not existing yet
+    let table = match read_txn.open_table(RITUALS_TABLE) {
+        Ok(t) => t,
+        Err(_) => return Json(Vec::<Ritual>::new()).into_response(), 
+    };
     
     let mut rituals = Vec::new();
     for item in table.iter().unwrap() {
         let (_, value) = item.unwrap();
-        let ritual: Ritual = serde_json::from_str(value.value()).unwrap();
-        rituals.push(ritual);
+        // If data is corrupt/old schema, skip it instead of crashing
+        if let Ok(ritual) = serde_json::from_str(value.value()) {
+            rituals.push(ritual);
+        }
     }
 
     // 2. Detect User-Agent (Is it Curl?)
@@ -154,7 +176,7 @@ async fn api_handle_rituals(
 
     // 3. Return the correct format
     if is_terminal {
-        // Render ANSI Art Table
+        // Render ANSI Art Table (Simplified for Terminal)
         let mut output = String::new();
         output.push_str(&format!("{}\n", "╔════════════════════════════════════════════════╗".bright_cyan()));
         output.push_str(&format!("║  {}  ║\n", "CULTURE KERNEL :: ACTIVE RITUALS".yellow().bold()));
@@ -163,13 +185,13 @@ async fn api_handle_rituals(
         for r in rituals {
             output.push_str(&format!("> {}\n", r.title.green().bold()));
             output.push_str(&format!("  ID:      {}\n", r.id.cyan()));
-            output.push_str(&format!("  TRIGGER: {}\n", r.trigger));
-            output.push_str(&format!("  SCRIPT:  {}\n", r.script.italic()));
+            output.push_str(&format!("  ORIGIN:  {}\n", r.origin_culture));
+            output.push_str(&format!("  BUG FIX: {}\n", r.bug_fixed.italic()));
             output.push_str("\n──────────────────────────────────────────────────\n\n");
         }
         return output.into_response();
     }
 
-    // Default: Return JSON for Frontend
+    // Default: Return Full Rich JSON for Frontend
     Json(rituals).into_response()
 }
