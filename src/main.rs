@@ -10,9 +10,9 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use colored::*; // For ANSI colors
 use tower_http::cors::CorsLayer;
-use std::collections::HashMap; // Needed for the 'modern_script' object
+use std::collections::HashMap; 
 
-// --- 1. DATA MODELS (EXACT MATCH TO YOUR JSON) ---
+// --- 1. DATA MODELS  ---
 #[derive(Debug, Serialize, Deserialize, Clone)]
 struct Ritual {
     // Matches JSON "id": "IGBO_01..."
@@ -114,7 +114,6 @@ fn list_rituals_cli(db: &Arc<Database>) -> anyhow::Result<()> {
     for item in table.iter()? {
         let (id, value) = item?;
         let ritual: Ritual = serde_json::from_str(value.value())?;
-        // Updated to use 'name' and 'origin_culture'
         println!("{} - {} ({})", id.value().cyan(), ritual.name, ritual.origin_culture.yellow());
     }
     Ok(())
