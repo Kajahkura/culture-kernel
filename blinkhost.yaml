@@ -1,0 +1,36 @@
+schema: blinkhost/v1
+application:
+  root: graft-canary
+frontend:
+  framework: react
+  package_manager: npm
+  install: npm ci
+  build: npm run build
+  dev: npm run dev
+  output: dist
+modules:
+  - name: rust-canary
+    path: _server_islands/rust-canary
+    language: rust
+    entrypoint: src/main.rs
+    abi: blinkhost-wasi-1
+    sdk: '1.1'
+  - name: go-canary
+    path: _server_islands/go-canary
+    language: go
+    entrypoint: main.go
+    abi: blinkhost-wasi-1
+    sdk: '1.1'
+  - name: python-canary
+    path: _server_islands/python-canary
+    language: python
+    entrypoint: main.py
+    abi: blinkhost-wasi-1
+    sdk: '1.1'
+resources:
+  databases: []
+  secrets: []
+preview:
+  enabled: true
+  database_mode: none
+ignore: []
